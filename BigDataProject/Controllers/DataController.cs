@@ -46,12 +46,7 @@ namespace BigDataProject.Controllers
         public async Task<IActionResult> Search(string keyword)
         {
 
-            string query = @"
-            SELECT TOP 100 BRAND, SUBSTRING(PLATE, 1, 2) AS COLOR, SHIFTTYPE, FUEL FROM PLATES 
-            WHERE BRAND LIKE '%' + @Keyword + '%'
-               OR COLOR LIKE '%' + @Keyword + '%'
-               OR SHIFTTYPE LIKE '%' + @Keyword + '%'  
-               OR FUEL LIKE '%' + @Keyword + '%' ";
+            string query = @" SELECT TOP 100 BRAND, SUBSTRING(PLATE, 1, 2) AS COLOR, SHIFTTYPE, FUEL FROM PLATES WHERE BRAND LIKE '%' + @Keyword + '%' OR COLOR LIKE '%' + @Keyword + '%' OR SHIFTTYPE LIKE '%' + @Keyword + '%'   OR FUEL LIKE '%' + @Keyword + '%' ";
             await using var connection = new SqlConnection(connect);
             connection.Open();
             var searchResults = await connection.QueryAsync<SearchResult>(query, new { Keyword = keyword });
