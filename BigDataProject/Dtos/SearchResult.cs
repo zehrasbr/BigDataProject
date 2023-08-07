@@ -2,10 +2,12 @@
 {
     public class SearchResult
     {
-        public string Brand { get; set; }
-        public string PlatePrefix { get; set; }
-        public string ShiftType { get; set; }
-        public string Fuel { get; set; }
-        public string Color { get; set; }
+        public string BRAND { get; set; }
+        public string PLATEPREFIX { get; set; }
+        public string SHIFTTYPE { get; set; }
+        public string FUEL { get; set; }
+        public string COLOR { get; set; }
+        public string CITYNR { get; set; }
+        public string TITLE { get; set; }
     }
 }

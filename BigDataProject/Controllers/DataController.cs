@@ -19,9 +19,9 @@ namespace BigDataProject.Controllers
             var brandMax = (await conn.QueryAsync<BrandDtos>("SELECT TOP 1 BRAND, COUNT(*) AS count FROM PLATES GROUP BY BRAND ORDER BY count DESC")).FirstOrDefault();
             var brandMin = (await conn.QueryAsync<BrandDtos>("SELECT TOP 1 BRAND, COUNT(*) AS count FROM PLATES GROUP BY BRAND ORDER BY count ASC")).FirstOrDefault();
             ViewData["brandMax"] = brandMax.BRAND;
-            ViewData["countMaxBrand"] = brandMax.Count;
+            ViewData["countMaxBrand"] = brandMax.COUNT;
             ViewData["brandMin"] = brandMin.BRAND;
-            ViewData["countMinBrand"] = brandMin.Count;
+            ViewData["countMinBrand"] = brandMin.COUNT;
             //araba plakaları
             var plateMax = (await conn.QueryAsync<PlateDtos>("SELECT TOP 1 SUBSTRING(PLATE, 1, 2) AS plate, COUNT(*) AS count FROM PLATES GROUP BY SUBSTRING(PLATE, 1, 2) ORDER BY count DESC")).FirstOrDefault();
             var plateMin = (await conn.QueryAsync<PlateDtos>("SELECT TOP 1 SUBSTRING(PLATE, 1, 2) AS plate, COUNT(*) AS count FROM PLATES GROUP BY SUBSTRING(PLATE, 1, 2) ORDER BY count ASC")).FirstOrDefault();
@@ -47,14 +47,11 @@ namespace BigDataProject.Controllers
         {
 
             string query = @"
-            SELECT TOP 1000 BRAND, SUBSTRING(PLATE, 1, 2) AS PlatePrefix, SHIFTTYPE, FUEL, CASETYPE
-            FROM PLATES
+            SELECT TOP 100 BRAND, SUBSTRING(PLATE, 1, 2) AS COLOR, SHIFTTYPE, FUEL FROM PLATES 
             WHERE BRAND LIKE '%' + @Keyword + '%'
-               OR PLATE LIKE '%' + @Keyword + '%'
-               OR SHIFTTYPE LIKE '%' + @Keyword + '%'
-               OR FUEL LIKE '%' + @Keyword + '%'
-               OR CASETYPE LIKE '%' + @Keyword + '%'
-        ";
+               OR COLOR LIKE '%' + @Keyword + '%'
+               OR SHIFTTYPE LIKE '%' + @Keyword + '%'  
+               OR FUEL LIKE '%' + @Keyword + '%' ";
             await using var connection = new SqlConnection(connect);
             connection.Open();
             var searchResults = await connection.QueryAsync<SearchResult>(query, new { Keyword = keyword });
